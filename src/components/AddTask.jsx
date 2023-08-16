@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodo } from '../actions/todoActions';
 
-const TodoForm = () => {
+import uuid from 'react-uuid';
+import {addTask} from "../redux/Actions.js";
+import task from "./Task.jsx";
+const AddTask = ({isopen,category}) => {
     const [todoText, setTodoText] = useState('');
     const dispatch = useDispatch();
 
@@ -12,27 +14,44 @@ const TodoForm = () => {
         if (todoText.trim() === '') {
             return;
         }
+        if (todoText.split('.')) {
+            const texts = todoText.split('.')
+            texts.map((text) =>{
+                const newTodo = {
+                    id: uuid(),
+                    text: text,
+                    compleate: false,
+                    category: category
+                };
+                dispatch(addTask(newTodo));
+            })
+        } else {
+            const newTodo = {
+                id: uuid(),
+                text: todoText,
+                compleate: false,
+                category: category
+            };
+            dispatch(addTask(newTodo));
+        }
 
-        const newTodo = {
-            id: new Date().getTime(),
-            text: todoText,
-        };
 
-        dispatch(addTodo(newTodo));
         setTodoText('');
+        isopen(false)
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <input
+                className='px-[10px] py-3 w-full'
                 type="text"
                 value={todoText}
                 onChange={(e) => setTodoText(e.target.value)}
-                placeholder="Enter a new todo"
+                placeholder="Enter a new task"
             />
-            <button type="submit">Add Todo</button>
+            <button type="submit" className='hidden'>Add Todo</button>
         </form>
     );
 };
 
-export default TodoForm;
+export default AddTask;

@@ -1,4 +1,6 @@
 
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 export default {
   content: [
     "./index.html",
@@ -10,7 +12,11 @@ export default {
       'doing': '#FFFBF2',
       'done': '#F4F9F3',
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        inter: ['Inter var', ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
   plugins: [],
 }

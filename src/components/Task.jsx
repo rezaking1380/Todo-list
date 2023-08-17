@@ -10,21 +10,14 @@ function Task({task}) {
     const [editing, setEditing] = useState(task.text);
     const [isEdited, setIsEdited] = useState(false);
     const dispatch = useDispatch()
-    useEffect(() => {
-        setCmpleate(task.compleate)
-    }, [compleate]);
+
+
 const deleteTask = () =>{
-    // console.log(task.id)
       dispatch(removeTask(task.id))
-      // dispatch({type:TODO_DELETE,id:task.id})
 }
   const handleInputChange = () => {
       dispatch(isCompleteTask(task.id))
       setCmpleate(!compleate)
-  }
-  const handelEdit = () =>{
-    setIsEdited(true)
-
   }
   const handleSubmitEdit = (e) => {
       e.preventDefault();
@@ -69,7 +62,7 @@ const deleteTask = () =>{
                         />
                         <button type="submit" className='hidden'>Edit Todo</button>
                     </form>
-                ) : <span className={compleate ? "line-through":'no-underline text-sm'} onDoubleClick={handelEdit}>{task.text}</span>
+                ) : <span className={compleate ? "line-through":'no-underline text-sm'} onDoubleClick={() => setIsEdited(true)}>{task.text}</span>
 
             }
         </div>

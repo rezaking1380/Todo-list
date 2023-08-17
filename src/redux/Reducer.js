@@ -85,17 +85,16 @@ const Reducer = (state=initialState,action) => {
           ),
       }
           localStorage.setItem('tasks', JSON.stringify(editTask.tasks));
-          return editTask
+          return editTask;
       case TODO_COMPLETE:
           const isComplete = state.tasks.map((task) => task.id === action.id ? {...task,compleate : task.compleate = !task.compleate} : task)
-          console.log(isComplete)
           const changeCategory = isComplete.map((task) => task.compleate === false && task.category !== 'doing' ? {...task,category : task.category = 'todo'} : task)
           const completeTask =  {
               ...state,
               tasks: changeCategory
           }
           localStorage.setItem('tasks', JSON.stringify(completeTask.tasks));
-          return completeTask
+          return completeTask;
     default:
         return state
   }

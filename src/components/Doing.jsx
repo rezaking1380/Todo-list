@@ -28,8 +28,8 @@ function Doing({ tasks }) {
       className="flex flex-col w-[340px] p-5 bg-doing rounded-[10px] mr-3"
     >
       <div className="mb-5 flex justify-between">
-        <span className="text-[#795B19] text-lg font-semibold">Doing 💪</span>
-        <span className="text-[#DECCA4] text-sm font-medium">
+        <span className="text-[#795B19] text-lg font-semibold font-inter">Doing 💪</span>
+        <span className="text-[#DECCA4] text-sm font-medium font-inter">
           {doingTasks.length} Tasks
         </span>
       </div>

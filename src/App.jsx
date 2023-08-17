@@ -13,9 +13,9 @@ function App() {
   return (
     <>
       <div className='max-w-[1060px] m-auto my-[70px] h-full'>
-        <div className='text-4xl font-bold mb-4'>✔️ Task List</div>
+        <div className='text-4xl font-bold mb-4 font-inter'>✔️ Task List</div>
         <div className='mb-11'>
-          <span className='text-lg font-medium'>
+          <span className='text-lg font-medium font-inter'>
           Break your life to simple tasks to get things done!
 Does not matter how many tasks you done, It’s important to break to small tasks and be on progress.
           </span>

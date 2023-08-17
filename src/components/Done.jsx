@@ -28,7 +28,7 @@ function Done({ tasks }) {
         <span className="text-[#286C1A] text-lg font-semibold font-inter">
           Done 🎉
         </span>
-        <span className="text-[#BCD7B6] text-sm font-medium">
+        <span className="text-[#BCD7B6] text-sm font-medium font-inter">
           {doneTasks.length} Tasks
         </span>
       </div>

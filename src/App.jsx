@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux'
 import Todo from './components/todo'
 import Doing from './components/Doing'
 import Done from './components/Done'
-import AddTask from "./components/AddTask.jsx";
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 
 function App() {
@@ -19,14 +20,16 @@ function App() {
 Does not matter how many tasks you done, It’s important to break to small tasks and be on progress.
           </span>
         </div>
-        <div className='flex min-h-[700px]'>
+        <div className='flex min-h-[600px]'>
+          <DndProvider backend={HTML5Backend}>
           <Todo tasks={tasks} />
           <Doing tasks={tasks} />
           <Done tasks={tasks} />
+          </DndProvider>
         </div>
       </div>
     </>
   )
 }
 
-export default App
+export default App;

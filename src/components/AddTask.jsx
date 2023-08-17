@@ -34,8 +34,6 @@ const AddTask = ({isopen,category}) => {
             };
             dispatch(addTask(newTodo));
         }
-
-
         setTodoText('');
         isopen(false)
     };

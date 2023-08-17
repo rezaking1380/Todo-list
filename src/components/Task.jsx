@@ -4,14 +4,24 @@ import {useDispatch, useSelector} from "react-redux";
 import todo from "./Todo.jsx";
 import {editTask, isCompleteTask, removeTask, TODO_DELETE} from "../redux/Actions.js";
 import {Checkbox} from "@mui/material";
+import { useDraggable } from '@dnd-kit/core';
+import { useDrag } from 'react-dnd';
 
 function Task({task}) {
   const [compleate, setCmpleate] = useState(task.compleate)
     const [editing, setEditing] = useState(task.text);
     const [isEdited, setIsEdited] = useState(false);
     const dispatch = useDispatch()
-
-
+let borderColor = ''
+    if (task.category === 'todo') {
+        borderColor = '#F3E1DF'
+    }
+    if (task.category === 'doing') {
+        borderColor = '#DBD2BC'
+    }
+    if (task.category === 'done') {
+        borderColor = '#D0E7CB'
+    }
 const deleteTask = () =>{
       dispatch(removeTask(task.id))
 }
@@ -33,10 +43,18 @@ const deleteTask = () =>{
       dispatch(editTask(edit))
       setIsEdited(false)
   }
-
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: 'task',
+    item:{id:task.id,category:task.category},
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging()
+    })
+  }))
   return (
-    <>
-        <div className='flex items-center'>
+    <div className={`flex justify-between min-h-[68px] px-[10px] py-3 items-center group bg-[#fff] border  rounded-[4px] mb-3 ${isDragging ? `border-dashed border-[${borderColor}]` : `border-[${borderColor}]`}`} ref={drag}>
+        {isDragging === false && (
+            <>
+            <div className='flex items-center'>
             <Checkbox onChange={handleInputChange} checked={compleate}
                       sx={
                 task.category === 'todo' ?
@@ -69,7 +87,9 @@ const deleteTask = () =>{
         <div className='w-4 h-4 cursor-pointer' onClick={deleteTask}>
             <AiOutlineClose color='#F4C5CB'  className={`hidden group-hover:flex`} />
         </div>
-    </>
+            </>
+        )}
+    </div>
 
   )
 }

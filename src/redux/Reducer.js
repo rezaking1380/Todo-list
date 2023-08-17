@@ -1,4 +1,4 @@
-import {TODO_ADD, TODO_COMPLETE, TODO_DELETE, TODO_EDIT, TODO_LIST} from "./Actions";
+import {TODO_ADD, TODO_COMPLETE, TODO_DELETE, TODO_DRAGGABLE, TODO_EDIT, TODO_LIST} from "./Actions";
 import uuid from 'react-uuid';
 
 export const initialState = {
@@ -89,12 +89,34 @@ const Reducer = (state=initialState,action) => {
       case TODO_COMPLETE:
           const isComplete = state.tasks.map((task) => task.id === action.id ? {...task,compleate : task.compleate = !task.compleate} : task)
           const changeCategory = isComplete.map((task) => task.compleate === false && task.category !== 'doing' ? {...task,category : task.category = 'todo'} : task)
+          const completed = changeCategory.map(task => task.compleate === true ? {...task,category : task.category = 'done'} : task)
           const completeTask =  {
               ...state,
-              tasks: changeCategory
+              tasks: completed
           }
           localStorage.setItem('tasks', JSON.stringify(completeTask.tasks));
           return completeTask;
+    case TODO_DRAGGABLE:
+        const dragged = state.tasks.map(task => {
+                if(task.id === action.id) {
+                    return {...task,category: action.category}
+                }
+                return task
+            })
+            const completeDragg = dragged.map(task => {
+                if(task.id === action.id & action.category === 'done') {
+                    return {...task,compleate: true}
+                } else if(task.id === action.id & task.category === action.category) {
+                    return {...task,compleate: false}
+                }
+                return task
+            })
+        const dragging = {
+            ...state,
+            tasks: completeDragg,
+        }
+        localStorage.setItem('tasks', JSON.stringify(dragging.tasks));
+        return dragging
     default:
         return state
   }

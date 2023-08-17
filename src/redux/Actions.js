@@ -3,6 +3,7 @@ export const TODO_ADD = 'todo-add'
 export const TODO_EDIT = 'todo-edit'
 export const TODO_DELETE = 'todo-delete'
 export const TODO_COMPLETE = 'todo-complete'
+export const TODO_DRAGGABLE = 'todo-draggable'
 
 export const addTask = (todo) => {
     return {
@@ -29,5 +30,13 @@ export const isCompleteTask = (id) =>{
     return{
         type:TODO_COMPLETE,
         id:id
+    }
+}
+
+export const draggingTask = ({id,category}) =>{
+    return{
+        type:TODO_DRAGGABLE,
+        id,
+        category
     }
 }

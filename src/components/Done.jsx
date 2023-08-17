@@ -1,32 +1,48 @@
-import React from 'react'
-import Task from './Task'
+import Task from "./Task";
+import { useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
+import { draggingTask } from "../redux/Actions";
 
+function Done({ tasks }) {
+  const doneTasks = tasks.filter((task) => task.compleate === true);
 
-function Done({tasks}) {
-    const doneTasks = tasks.filter((task) => task.compleate === true)
+  const dispatch = useDispatch();
 
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: "task",
+    drop: (item) => addItemToSection(item.id),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
 
-    return (
-      <div className="flex flex-col w-[340px] p-5 bg-done rounded-[10px] mr-3">
-          <div className="mb-5 flex justify-between">
-              <span className="text-[#286C1A] text-lg font-semibold font-inter">
-              Doing 🎉
-              </span>
-              <span className="text-[#BCD7B6] text-sm font-medium">
-                  {doneTasks.length} Tasks
-              </span>
-          </div>
-          <div>
-              {doneTasks.map((task,index) => (
-                  task.compleate === true &&
-                  <div key={index} className='group bg-[#fff] border-[#D0E7CB] flex justify-between border  rounded-[4px] px-[10px] py-3 mb-3 items-center'>
-                      <Task  task={task} />
-                  </div>
-              ))}
-          </div>
-
+  const addItemToSection = (id) => {
+    dispatch(draggingTask({ id, category: "done" }));
+  };
+  return (
+    <div
+      ref={drop}
+      className="flex flex-col w-[340px] p-5 bg-done rounded-[10px] mr-3"
+    >
+      <div className="mb-5 flex justify-between">
+        <span className="text-[#286C1A] text-lg font-semibold font-inter">
+          Done 🎉
+        </span>
+        <span className="text-[#BCD7B6] text-sm font-medium">
+          {doneTasks.length} Tasks
+        </span>
       </div>
-    )
+      <div>
+        {doneTasks.map(
+          (task) =>
+            task.compleate === true && <Task key={task.id} task={task} />
+        )}
+        {isOver && (
+          <div className="border-[#D0E7CB] border-dashed min-h-[68px] px-[10px] py-3 bg-[#fff] border  rounded-[4px] mb-3"></div>
+        )}
+      </div>
+    </div>
+  );
 }
 
-export default Done
+export default Done;

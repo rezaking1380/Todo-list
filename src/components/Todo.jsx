@@ -21,6 +21,7 @@ function Todo({ tasks }) {
 
   const addItemToSection = (id) => {
     dispatch(draggingTask({ id, category: "todo" }));
+
   };
   return (
     <div

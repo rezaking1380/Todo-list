@@ -8,6 +8,8 @@ import {
 } from "../redux/Actions.js";
 import { Checkbox } from "@mui/material";
 import { useDrag } from "react-dnd";
+import 'react-toastify/dist/ReactToastify.css';
+import {toast} from "react-toastify";
 
 function Task({ task }) {
   const [compleate, setCmpleate] = useState(task.compleate);
@@ -26,8 +28,18 @@ function Task({ task }) {
   }
   const deleteTask = () => {
     dispatch(removeTask(task.id));
+    toast.error('You deleted a task :-(', {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
-  const handleInputChange = () => {
+  const handleComplete = () => {
     dispatch(isCompleteTask(task.id));
     setCmpleate(!compleate);
   };
@@ -44,6 +56,16 @@ function Task({ task }) {
     };
     dispatch(editTask(edit));
     setIsEdited(false);
+    toast.info('You edited a task 👍', {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
@@ -65,7 +87,7 @@ function Task({ task }) {
         <>
           <div className="flex items-center">
             <Checkbox
-              onChange={handleInputChange}
+              onChange={handleComplete}
               checked={compleate}
               sx={
                 task.category === "todo"
